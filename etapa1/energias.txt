@@ -1,0 +1,3 @@
+Tecnologia: agua
+Tecnologia: viento
+Tecnologia: fotovoltaica
