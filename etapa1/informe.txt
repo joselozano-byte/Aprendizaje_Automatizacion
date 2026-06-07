@@ -1,0 +1,6 @@
+Cliente: Citania, Tecnologia: agua, Potencia: 120 kW, Tamaño: grande
+Cliente: Acme, Tecnologia: viento, Potencia: 85 kW, Tamaño: pequeña
+Cliente: Beta, Tecnologia: fotovoltaica, Potencia: 200 kW, Tamaño: grande
+Cliente: Delta, Tecnologia: viento, Potencia: 40 kW, Tamaño: pequeña
+Potencia total acumulada: 445 kW
+Número de instalaciones: 4
