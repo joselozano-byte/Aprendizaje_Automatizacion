@@ -1,2 +1,11 @@
 .venv/
 .DS_Store
+.env
+*.env
+storage_state*.json
+token*.json
+.refresh_token
+*refresh_token*
+*.key
+*.pem
+!.env.example
