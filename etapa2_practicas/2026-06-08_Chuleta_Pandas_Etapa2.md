@@ -78,10 +78,68 @@ Se encadena el cálculo detrás de la columna.
 
 Poner `df.shape()` con paréntesis da error.
 
+## 6. Agrupar por día y calcular el spread
+
+Para agrupar por día completo (no por hora), se extrae la fecha del
+datetime con `.dt.date`. Es el equivalente diario de `.dt.hour`.
+
+```python
+df["dia"] = df["datetime"].dt.date
+```
+
+Crea una columna nueva con solo la fecha (sin la hora).
+
+### groupby + max / min por grupo
+
+```python
+maximo_por_dia = df.groupby("dia")["value"].max()
+minimo_por_dia = df.groupby("dia")["value"].min()
+```
+
+Estructura: `df.groupby("columna_grupo")["columna_calculo"].max()`.
+Devuelve una Serie con el `dia` como índice y el valor calculado.
+
+### Restar dos Series con el mismo índice
+
+```python
+spread_diario = maximo_por_dia - minimo_por_dia
+```
+
+Pandas resta elemento a elemento porque ambas Series comparten el
+índice (`dia`). No hace falta bucle: la resta se alinea sola por índice.
+El resultado es el spread (oscilación max-min) de cada día.
+
+---
+
+## Principio: el nombre de la variable debe decir la verdad
+
+Si una variable agrupa por día, no la llames `precio_por_hora_max`.
+El nombre es documentación: debe describir lo que contiene, no de dónde
+se copió. `maximo_por_dia` se entiende solo; `precio_por_hora_max`
+agrupando por día engaña a quien lo lea (incluido tú dentro de 6 meses).
+
+---
+
+## Lectura de negocio (RPI): el spread diario
+
+El spread diario replica la herramienta Excel de análisis de RPI.
+Mide la oscilación de precio dentro de cada día:
+
+- Spread alto = mucho margen entre comprar barato y vender caro =
+  más valor para almacenamiento y flexibilidad hidráulica.
+- El spread crece de invierno a primavera/verano: más solar hunde
+  el mínimo de mediodía mientras la punta de tarde se mantiene alta.
+- El PV vende en el mínimo (mediodía); el spread cuantifica el dinero
+  que el PV deja de capturar por no poder desplazar producción a la tarde.
+
 ---
 
 ## Pendiente para el próximo ejercicio
 
-Convertir la columna `datetime` (ahora texto / `str`) a fecha real
-para poder agrupar por día y por hora. Aparecerá el cambio de huso
-horario (+01:00 invierno / +02:00 verano) en los datos de REE.
+Resumir la serie del spread: `.mean()`, `.max()`, `.min()` sobre
+`spread_diario` para obtener estadísticos. Más adelante, introducir
+`pathlib` para que el script encuentre el CSV sin depender de la
+carpeta desde la que se ejecuta (resuelve el `FileNotFoundError` de hoy).
+---
+
+
